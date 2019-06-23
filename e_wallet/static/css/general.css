@@ -1,0 +1,25 @@
+th {
+	background-color: #eaf1fc;
+	text-align: center;
+	border: solid 1px black;
+}
+
+td {
+	text-align: center;
+	border: solid 1px black;
+}
+
+table {
+	padding: 1px;
+	border: solid 1px black;
+}
+
+.card {
+	width: 40%;
+	margin: auto;
+	 
+}
+
+.padding {
+	padding: 2%;
+}
