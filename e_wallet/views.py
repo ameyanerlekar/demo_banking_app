@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from.forms import CustomUserRegistrationForm
+from.forms import CustomUserRegistrationForm, TransactionForm
 from .models import Client, Account
 
 def render_home(request):
@@ -17,10 +17,11 @@ def render_home(request):
 			user = authenticate(username = username, password = password)
 			if user is not None:
 				login(request, user)
-				print(user.username)
+				#print(user.username)
 				client = Client.objects.get(username = user.username)
 				accounts = Account.objects.filter(owner = client.username)
-				return render(request, "homepage.html", {"username": client.first_name + " " + client.last_name, "button": "Sign out", "accounts": accounts})			
+				transaction_form = TransactionForm()
+				return render(request, "homepage.html", {"username": client.first_name + " " + client.last_name, "button": "Sign out", "accounts": accounts, "transaction_form": transaction_form})			
 		else:
 			return render(request, "home.html", {"message": "Invalid Credentials. Please try again!", "form": form, "button": "Sign In"})
 				
@@ -41,8 +42,11 @@ def sign_up(request):
 			username = form.cleaned_data.get("username")
 			password = form.cleaned_data.get("password")
 			#user = authenticate(username, password)
+			client = Client.objects.get(username = username)
+			accounts = Account.objects.filter(owner = username)
+			transaction_form = TransactionForm()
 			login(request, user)
-			return render(request, "homepage.html", {"username": username, "button": "Sign out"})
+			return render(request, "homepage.html", {"username": client.first_name + " " + client.last_name, "button": "Sign out", "accounts": accounts, "transaction_form": transaction_form})			
 		else:
-			return render(request, "sign_up.html", {"message": form.errors})
+			return render(request, "sign_up.html", {"message": form.errors, "form": form})
 		

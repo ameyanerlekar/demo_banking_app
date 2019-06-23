@@ -1,14 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-	<div>
-		<form method = "POST">
-			{% csrf_token %}
-			{{form.as_p}}
-			<button type = "submit">Sign Up!</button>
-		</form>
-		<span>{{message}}</span>
+	
+	<div class="jumbotron">
+		<h1>The Nerlekar Bank <small>Pvt. Ltd.</small></h1> 
+		<p>We Prosper in Your Prosperity</p> 
+	</div>
+	<div class = "padding">
+		<div class = "card">
+			<div class="card-header">Please Enter the Following Details to Create Your Net Banking Account:</div>
+			<div class="card-body">
+				<div>
+					<form method = "POST">
+						{% csrf_token %}
+						{{form.as_p}}
+						<button class="btn btn-primary" type = "submit">Sign Up!</button>
+					</form>
+					
+				</div>
+			</div>
+		<div class="card-footer"><small class="info">Please Note That All Fields are mandatory.</small><br><span class="info">{{message}}</span></div>
+		</div>
 	</div>
 
 {% endblock %}

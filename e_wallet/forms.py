@@ -1,7 +1,8 @@
 from django import forms
-from .models import Client
+from .models import Client, Transaction
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+import datetime
 
 class CustomUserRegistrationForm(forms.Form):
 	first_name = forms.CharField(label = "First Name", max_length = 15, required = True)
@@ -50,3 +51,34 @@ class CustomUserRegistrationForm(forms.Form):
 		)
 		
 		return user
+		
+class TransactionForm(forms.Form):
+	# #from_account = forms.ChoiceField(widget = forms.RadioSelect, choices=self.CHOICES, required = True)
+	transaction_amount = forms.FloatField(label = "Enter Amount to be Sent", required = True, min_value=5)
+	beneficiary_account = forms.CharField(label="Enter Beneficiary Account Number", required = True)
+	beneficiary_name = forms.CharField(label="Enter Beneficiary's Name", required = True)
+	remarks = forms.CharField(label = "Remarks", required = False)
+	
+	# class Meta:
+		# model = Transaction
+		# fields = ["from_account", "transaction_amount", "beneficiary_account", "beneficiary_name", "remarks"]
+		
+		# widgets = {
+			# "from_account": forms.RadioSelect()
+		# }
+	
+	# def save(self, commit=True):
+		# transaction = Transaction.objects.create(
+			# time = datetime.datetime.now(),
+			# from_account = self.cleaned_data.get("from_account"),
+			# transaction_amount = self.cleaned_data.get("transaction_amount"),
+			# beneficiary_account = self.cleaned_data.get("beneficiary_account"),
+			# beneficiary_name = self.cleaned_data.get("beneficiary_name"),
+			# remarks = self.cleaned_data.get("remarks")
+		# )
+	
+		
+	
+	
+	
+	
