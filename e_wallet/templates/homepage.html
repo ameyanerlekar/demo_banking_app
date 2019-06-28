@@ -45,23 +45,25 @@
 				<br>
 				{% if accounts %}
 					<h2>Choose an account to transfer from:</h2><br>
-					{% for account in accounts %}
-						<button class="btn btn-light btn-block" data-toggle="collapse" data-target="#form_{{account.account_number}}">{{account.account_number}}</button>
-						<div class="padding collapse" id="form_{{account.account_number}}">
-							<div class = "card">
-								<div class = "card-header"><h3>Transfer Funds From Account {{account.account_number}}:</h3></div>
-								<div class = "card-body">
-									<form action="/transact" mehtod="POST">
-										{% csrf_token %}
-										<input hidden value="{{account.account_number}}" name="from_account">
-										{{transaction_form.as_p}}
-										<button type = "submit" class = "btn btn-primary">Transfer Funds</button>
-									</form>
+						<div id="accordion">
+							{% for account in accounts %}
+								<button class="btn btn-outline-dark btn-block" data-toggle="collapse" data-target="#form_{{account.account_number}}">{{account.account_number}}</button><br>
+								<div class="padding collapse" id="form_{{account.account_number}}" data-parent="#accordion">
+									<div class = "card">
+										<div class = "card-header"><h3>Transfer Funds From Account {{account.account_number}}:</h3></div>
+										<div class = "card-body">
+											<form action="/transact" method="POST">
+												{% csrf_token %}
+												<input hidden value="{{account.account_number}}" name="from_account">
+												{{transaction_form.as_p}}
+												<button type = "submit" class = "btn btn-primary">Transfer Funds</button>
+											</form>
+										</div>
+										<div class="card-footer"><span class="info">Please Note: A Transaction Once Initiated Cannot be Reverted/ Stopped Without Approval From the Beneficiary.</span></div>					
+									</div>
 								</div>
-								<div class="card-footer"><span class="info">Please Note: A Transaction Once Initiated Cannot be Reverted/ Stopped Without Approval From the Beneficiary.</span></div>					
-							</div>
+							{% endfor %}
 						</div>
-					{% endfor %}
 				{% endif %}
 			</div>
 			

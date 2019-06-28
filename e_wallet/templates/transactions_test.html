@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table>
+	{% for transaction in transactions %}
+		<tr><td>{{transaction.time}}</td><td>{{transaction.from_account}}</td><td>{{transaction.beneficiary_account}}</td><td>{{transaction.transaction_amount}}</td></tr>
+	{% endfor %}
+</table>
+{% endblock %}

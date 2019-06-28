@@ -43,18 +43,21 @@ class Account(models.Model):
 		
 	def debit(self, debit_amount):
 		if not self.is_frozen:
-			self.account_balance = self.account_balance - debit_amount
-			self.save()
-			return "Debited Rs. " + str(debit_amount) + " from account: " + str(self.account_number) + ". Remaining balance is Rs. " + str(self.account_balance) + "."
+			if self.account_balance - debit_amount >=0:
+				self.account_balance = self.account_balance - debit_amount
+				self.save()
+				return "Debited Rs. " + str(debit_amount) + " from account: " + str(self.account_number) + ". Remaining balance is Rs. " + str(self.account_balance) + "."
+			else:
+				raise Exception("Sorry! You do not have the necessary balance in this account to make this transfer. Please add funds to this account or use a different account with sufficient funds.")
 		else:
 			return "Sorry, your account, account no. " + str(self.account_number) + " has been temporarily frozen due for security reasons. Kindly visit your nearest branch for assistance."
 
 		
 	def credit(self, credit_amount):
 		if not self.is_frozen:
-			self.account_balance = self.account_balance - credit_amount
+			self.account_balance = self.account_balance + credit_amount
 			self.save()
-			return "Credited Rs. " + str(debit_amount) + " to account: " + str(self.account_number) + ". Available balance is Rs. " + str(self.account_balance) + "."
+			return "Credited Rs. " + str(credit_amount) + " to account: " + str(self.account_number) + ". Available balance is Rs. " + str(self.account_balance) + "."
 		else:
 			return "Sorry, your account, account no. " + str(self.account_number) + " has been temporarily frozen due for security reasons. Kindly visit your nearest branch for assistance."
 		
@@ -70,7 +73,7 @@ class Account(models.Model):
 		
 class Transaction(models.Model):
 	id = models.AutoField(primary_key=True)
-	time = models.DateField()
+	time = models.DateTimeField()
 	from_account = models.CharField(max_length = 10)
 	transaction_amount = models.FloatField()
 	beneficiary_account = models.CharField(max_length = 10)

@@ -59,23 +59,7 @@ class TransactionForm(forms.Form):
 	beneficiary_name = forms.CharField(label="Enter Beneficiary's Name", required = True)
 	remarks = forms.CharField(label = "Remarks", required = False)
 	
-	# class Meta:
-		# model = Transaction
-		# fields = ["from_account", "transaction_amount", "beneficiary_account", "beneficiary_name", "remarks"]
-		
-		# widgets = {
-			# "from_account": forms.RadioSelect()
-		# }
 	
-	# def save(self, commit=True):
-		# transaction = Transaction.objects.create(
-			# time = datetime.datetime.now(),
-			# from_account = self.cleaned_data.get("from_account"),
-			# transaction_amount = self.cleaned_data.get("transaction_amount"),
-			# beneficiary_account = self.cleaned_data.get("beneficiary_account"),
-			# beneficiary_name = self.cleaned_data.get("beneficiary_name"),
-			# remarks = self.cleaned_data.get("remarks")
-		# )
 	
 		
 	
