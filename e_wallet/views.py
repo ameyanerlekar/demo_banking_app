@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from.forms import CustomUserRegistrationForm, TransactionForm #, GetStatementForm
 from .models import Client, Account, Transaction
 from django.db.models import Q
-import datetime
+import datetime, smtplib, ssl
 
 def render_home(request):
 	if request.method != "POST" and not request.user.is_authenticated:
@@ -112,4 +112,32 @@ def get_statement(request):
 		owner = request.user.first_name + " " + request.user.last_name		
 		return render(request, "transactions_test.html", {"transactions": valid_transactions, "owner": owner, "for_account": for_account})#, "from_date": FROM_DATE, "to_date": TO_DATE))
 		
-		
+def request_account(request):
+	client = Client.objects.get(username = request.user.username)
+	send_request_email(request, client.first_name + " " + client.last_name + " (" + client.username + ")")
+	return HttpResponse("<span>Thanks for opening an account with us. We will Process your request shortly and have your account opened in no time.</span>")
+	
+def send_request_email(request, client):
+	sender = "ameyanerlekar2009@gmail.com"
+	password = "KAKKAROTT"
+	receiver = "ameyanerlekar@gmail.com"
+	message = """\
+From: Demo Bank App Notifications
+Subject: REQUEST FOR OPENING ACCOUNT FOR {}
+
+Greetings. This email is to inform you that our client, {} has requested to have an account opened.
+""".format(client, client)
+	
+	context = ssl.create_default_context()
+
+	try:
+		server = smtplib.SMTP("smtp.gmail.com", 587)
+		server.starttls(context = context)
+		server.login(sender, password)
+		server.sendmail(sender, receiver, message)
+	except Exception as e:
+		print(e)
+		return HttpResponse(str(e))
+	finally:
+		server.quit()
+	
