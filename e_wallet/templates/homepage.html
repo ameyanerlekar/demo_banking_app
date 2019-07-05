@@ -92,7 +92,8 @@
 											<form action="/get_statement" method="POST">
 												{% csrf_token %}
 												<input hidden value="{{account.account_number}}" name="for_account">
-												{{statement_form.as_p}}
+												<p><label for="from_account">From Date:&nbsp</label><input name="from_date" class="datepicker" id="from_date_for_account_{{account.account_number}}"></p>
+												<p><label for="to_account">To Date:&nbsp</label><input name="to_date" class="datepicker" id="to_date_for_account_{{account.account_number}}"></p>
 												<button type = "submit" class = "btn btn-primary">Get Statement</button>
 											</form>
 										</div>

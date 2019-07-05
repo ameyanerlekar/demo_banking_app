@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from.forms import CustomUserRegistrationForm, TransactionForm, GetStatementForm
+from.forms import CustomUserRegistrationForm, TransactionForm #, GetStatementForm
 from .models import Client, Account, Transaction
 from django.db.models import Q
 import datetime
@@ -16,8 +16,8 @@ def render_home(request):
 		client = Client.objects.get(username = request.user.username)
 		accounts = Account.objects.filter(owner = client.username)
 		transaction_form = TransactionForm()
-		statement_form = GetStatementForm()
-		return render(request, "homepage.html", {"username": client.first_name + " " + client.last_name, "button": "Sign out", "accounts": accounts, "transaction_form": transaction_form, "statement_form": statement_form})			
+		#statement_form = GetStatementForm()
+		return render(request, "homepage.html", {"username": client.first_name + " " + client.last_name, "button": "Sign out", "accounts": accounts, "transaction_form": transaction_form})			
 	else:
 		form = AuthenticationForm(request, request.POST)
 		if form.is_valid():
@@ -31,8 +31,8 @@ def render_home(request):
 					client = Client.objects.get(username = user.username)
 					accounts = Account.objects.filter(owner = client.username)
 					transaction_form = TransactionForm()
-					statement_form = GetStatementForm()
-					return render(request, "homepage.html", {"username": client.first_name + " " + client.last_name, "button": "Sign out", "accounts": accounts, "transaction_form": transaction_form, "statement_form": statement_form})			
+					#statement_form = GetStatementForm()
+					return render(request, "homepage.html", {"username": client.first_name + " " + client.last_name, "button": "Sign out", "accounts": accounts, "transaction_form": transaction_form})			
 				except:
 					return redirect("/admin")
 		else:
@@ -58,9 +58,9 @@ def sign_up(request):
 			client = Client.objects.get(username = username)
 			accounts = Account.objects.filter(owner = username)
 			transaction_form = TransactionForm()
-			statement_form = GetStatementForm()
+			#statement_form = GetStatementForm()
 			login(request, user)
-			return render(request, "homepage.html", {"username": client.first_name + " " + client.last_name, "button": "Sign out", "accounts": accounts, "transaction_form": transaction_form, "statement_form": statement_form})			
+			return render(request, "homepage.html", {"username": client.first_name + " " + client.last_name, "button": "Sign out", "accounts": accounts, "transaction_form": transaction_form})			
 		else:
 			return render(request, "sign_up.html", {"message": form.errors, "form": form})
 		
@@ -90,8 +90,8 @@ def make_transaction(request):
 				client = Client.objects.get(username = request.user.username)
 				accounts = Account.objects.filter(owner = client.username)
 				transaction_form = TransactionForm()
-				statement_form = GetStatementForm()
-				return render(request, "homepage.html", {"username": client.first_name + " " + client.last_name, "button": "Sign out", "accounts": accounts, "transaction_form": transaction_form, "statement_form": statement_form})
+				#statement_form = GetStatementForm()
+				return render(request, "homepage.html", {"username": client.first_name + " " + client.last_name, "button": "Sign out", "accounts": accounts, "transaction_form": transaction_form})
 			except Exception as e:
 				return HttpResponse("<p style='color:red;'>" + str(e) + "</p>")
 		else:
@@ -113,8 +113,3 @@ def get_statement(request):
 		return render(request, "transactions_test.html", {"transactions": valid_transactions, "owner": owner, "for_account": for_account})#, "from_date": FROM_DATE, "to_date": TO_DATE))
 		
 		
-def forms_test(request):
-	forms = []
-	for i in range(3):
-		forms.append(GetStatementForm())
-	return render(request, "forms_test.html", {"forms": forms})
