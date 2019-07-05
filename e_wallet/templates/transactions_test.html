@@ -1,9 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<table>
-	{% for transaction in transactions %}
-		<tr><td>{{transaction.time}}</td><td>{{transaction.from_account}}</td><td>{{transaction.beneficiary_account}}</td><td>{{transaction.transaction_amount}}</td></tr>
-	{% endfor %}
-</table>
+<div class="jumbotron">
+	<h1 style="width:fit-content;" data-toggle="tooltip" data-placement="right" title="This is a mock banking web application developed by Ameya Nerlekar for demonstration purposes to potential employers.">The Nerlekar Bank <small>Pvt. Ltd.</small></h1> 
+	<p>We Prosper in Your Prosperity</p> 
+</div>
+
+<div class="padding">
+
+	<h3>Account Holder: {{owner}}</h3>
+	<h3>Account Number: {{for_account}}</h3>
+	<!--<h3>Opening Balance as on {{from_date}}: </h3>
+	<h3>Closing Balance (Available as on {{to_date}}): </h3>-->
+	<br>
+	<table>
+		<tr><th>Time of Transfer</th><th>To</th><th>From</th><th>Particulars</th><th>Remarks</th><th>Debit</th><th>Credit</th></tr>
+		{% for transaction in transactions %}
+			<tr>
+				<td>{{transaction.time}}</td>
+				{% if transaction.from_account == for_account %}
+					<td>{{transaction.beneficiary_account}}</td>
+					<td> - </td>
+					<td>{{transaction.particulars}}</td>
+					<td>{{transaction.remarks}}</td>
+					<td>-{{transaction.transaction_amount}}</td>
+					<td> - </td>
+				{% else %}
+					<td> - </td>
+					<td>{{transaction.beneficiary_account}}</td>
+					<td>{{transaction.particulars}}</td>
+					<td>{{transaction.remarks}}</td>
+					<td> - </td>
+					<td>+{{transaction.transaction_amount}}</td>
+				{% endif %}
+			</tr>
+		{% endfor %}
+	</table>
+</div>
+
 {% endblock %}

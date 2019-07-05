@@ -78,4 +78,11 @@ class Transaction(models.Model):
 	transaction_amount = models.FloatField()
 	beneficiary_account = models.CharField(max_length = 10)
 	beneficiary_name = models.CharField(max_length = 20)
+	mode = models.CharField(max_length = 11, choices = [
+		("CHEQUE", "cheque"),
+		("NET BANKING", "net banking transfer")
+	],
+		default = "NET BANKING"
+	)
+	particulars = models.CharField(max_length = 7)
 	remarks = models.TextField()

@@ -59,10 +59,12 @@ class TransactionForm(forms.Form):
 	beneficiary_name = forms.CharField(label="Enter Beneficiary's Name", required = True)
 	remarks = forms.CharField(label = "Remarks", required = False)
 	
+class GetStatementForm(forms.Form):
+	from_date = forms.DateField(label = "Transactions From Date", required = True, widget=forms.DateInput)
+	to_date = forms.DateField(label = "Transactions Till Date", required = True, widget=forms.DateInput)
 	
-	
+	def __init__(self, *args, **kwargs):
+		super(GetStatementForm, self).__init__(*args, **kwargs)
+		for visible in self.visible_fields():
+			visible.field.widget.attrs['class'] = 'datepicker'
 		
-	
-	
-	
-	
